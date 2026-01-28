@@ -32,24 +32,50 @@
           <p id="money-minus" class="money minus">-\$0.00</p>
         </div>
       </div>
+
       <h3>History</h3>
-      <ul id="list" class="list"></ul>
+
+
+       <ul id="list" class="list">
+            {% for transaction in transactions %}
+
+            <!-- <li class="minus">
+
+                Flower <span>-20</span><button class="delete-btn" onclick="removeTransaction(1)"><i class="fa fa-times"></i></button>
+            </li> -->
+
+            <li class="{% if transaction.expense_type == 'DEBIT' %} minus {% else %} plus {% endif %}">
+                {{transaction.description}} <span> {{transaction.amount}} </span>
+                 <!-- <a class="delete-btn" href="{% url 'delete_transaction' transaction.id %}">
+                  <i class="fas fa-trash-alt"></i></a> -->
+                <button class="delete-btn" onclick="removeTransaction(1)"><i class="fa fa-times" ></i></button>
+             </li>
+            {% endfor %}
+        </ul>
+
+
       <h3>Add new transaction</h3>
-      <form id="form">
+
+
+      <form method ="post"  id="form">
+        {% csrf_token %}
         <div class="form-control">
           <label for="text">Description</label>
-          <input type="text" id="text" placeholder="Enter description..." />
+          <input type="text" name="description" id="text" placeholder="Enter description..." />
         </div>
         <div class="form-control">
           <label for="amount"
             >Amount <br />
             <small>(-100 = expense, 100 = income)</small></label
           >
-          <input type="number" id="amount" placeholder="Enter amount..." />
+          <input type="number" id="amount" name="amount" placeholder="Enter amount..." />
         </div>
-        <button class="btn">Add transaction</button>
+        <button class="btn" type="submit" >Add transaction</button>
       </form>
     </div>
+
+
+
     <div class="notification-container" id="notification">
       <p>Please add a description and amount</p>
     </div>

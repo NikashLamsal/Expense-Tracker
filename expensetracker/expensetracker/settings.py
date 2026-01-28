@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'expensetracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'formdb',
+        'NAME': 'expense',
         'USER': 'root',
         'PASSWORD': 'nikk123',
         'HOST': 'localhost',
