@@ -24,6 +24,3 @@ This project is designed for learning **Django backend development**, CRUD opera
 - **Database:** SQLite (default) 
 - **Server:** Gunicorn
 ---
-
-## 📁 Project Structure
-
