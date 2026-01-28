@@ -74,3 +74,4 @@ def delete_transaction(request , id):
 
     tracking_history.delete()
     return redirect('/')
+
