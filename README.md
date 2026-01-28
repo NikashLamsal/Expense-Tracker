@@ -24,3 +24,8 @@ This project is designed for learning **Django backend development**, CRUD opera
 - **Database:** SQLite (default) 
 - **Server:** Gunicorn
 ---
+
+## UI 
+
+
+![Expense Tracker Dashboard](UI-Assets/UI.png)
