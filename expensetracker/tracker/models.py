@@ -13,3 +13,5 @@ class TrackingHistory(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     # created_at = models.DateTimeField(auto_now_add=True)
     expense_type = models.CharField(choices = (('CREDIT','CREDIT'),('DEBIT', 'DEBIT')),max_length=200)
+
+

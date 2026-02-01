@@ -340,3 +340,15 @@ input::placeholder {
     min-height: 300px;
   }
 }
+
+.list li .update-btn {
+  position: absolute;
+  top: 50%;
+  right: 40px; /* push it left of delete */
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+.list li:hover .update-btn {
+  opacity: 1;
+}
