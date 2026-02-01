@@ -1,31 +1,60 @@
 # Expense Tracker – Django Web App
 
-A simple and efficient **Expense Tracker web application** built using **Django** that helps users record, manage, and analyze their daily expenses.  
-This project is designed for learning **Django backend development**, CRUD operations, and real-world project structure.
+A simple and efficient **Expense Tracker web application** built using **Django**.  
+This app allows users to record, manage, and analyze their daily income and expenses with full **CRUD functionality**.
+
+This project is ideal for learning **Django backend development**, database handling, and real-world project structure.
 
 ---
 
 ##  Features
 
 -  Add income and expenses
--  Edit existing records
--  Delete expenses
--  Track total income & expenses
--  Category-wise expense management
--  Date-wise expense records
--  Secure Django backend
+-  Update / Edit existing transactions
+-  Delete transactions
+-  Track total balance
+-  View total income and total expenses
+-  Secure Django backend (CSRF protected)
 
 ---
 
 ## Tech Stack
 
-- **Backend:** Django
-- **Frontend:** HTML, CSS ( Just for the simple UI )
-- **Database:** SQLite (default) 
-- **Server:** Gunicorn
+- **Backend:** Django  
+- **Frontend:** HTML, CSS (Simple & minimal UI)  
+- **Database:** SQLite (default Django DB)  
+- **Server:** Gunicorn  
+
 ---
 
-## UI 
+##  CRUD Functionality
 
+| Operation | Description |
+|---------|-------------|
+| Create | Add new income or expense |
+| Read | View transaction history |
+| Update | Edit existing transactions |
+| Delete | Remove transactions |
 
-![Expense Tracker Dashboard](UI-Assets/UI.png)
+---
+
+### UI View
+
+---
+![Expense Tracker Dashboard](UI-Assets/UI1.png)
+---
+![Expense Tracker Dashboard](UI-Assets/UI2.png)
+---
+
+## Installation & Setup
+
+Follow these steps to run the project locally:
+
+### Clone the Repository
+```bash
+git clone https://github.com/your-username/expense-tracker.git
+cd expensetracker
+```
+```bash
+python manage.py runserver
+```
