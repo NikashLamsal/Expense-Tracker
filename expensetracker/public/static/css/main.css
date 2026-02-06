@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --main-color: #1e3a8a;
@@ -10,11 +11,26 @@
   --plus-color: #16a34a;
   --minus-color: #dc2626;
   --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-light: #3b82f6;
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-border: #e2e8f0;
+  --color-shadow: rgba(0, 0, 0, 0.04);
+  --color-shadow-hover: rgba(37, 99, 235, 0.12);
+  --radius-sm: 6px;
+  --radius-md: 10px;  
 }
 
 
 
-
+body {
+  margin: 0;
+  padding: 0;
+}
 
 * {
   box-sizing: border-box;
@@ -365,27 +381,9 @@ input::placeholder {
 
 /* nav bar */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-:root {
-  --color-primary: #2563eb;
-  --color-primary-dark: #1d4ed8;
-  --color-primary-light: #3b82f6;
-  --color-bg: #ffffff;
-  --color-surface: #f8fafc;
-  --color-text: #0f172a;
-  --color-text-secondary: #64748b;
-  --color-border: #e2e8f0;
-  --color-shadow: rgba(0, 0, 0, 0.04);
-  --color-shadow-hover: rgba(37, 99, 235, 0.12);
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --transition: all 0.18s ease;
-}
-body {
-  margin: 0;
-  padding: 0;
-}
+
+
 .navbar {
   position: sticky;
   top: 0;

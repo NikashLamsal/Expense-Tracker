@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="/media/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<style>
+  body {
+  margin: 0;
+  padding: 0;
+}
+
+</style>
 <body>
 
 <nav class="navbar">
@@ -36,10 +43,18 @@
         </div>
       </div>
 
-      <button class="logout-btn" type="button" onclick="window.location.href='{% url 'logout_page' %}'">
+      <!-- <button class="logout-btn" type="button" onclick="window.location.href='{% url 'logout_page' %}'">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
         Logout
-      </button>
+      </button> -->
+
+      <a class="logout-btn" type="button" href="{% url 'logout_page' %}">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Logout
+        </a>
+
+
+
     </div>
   </div>
 </nav>
