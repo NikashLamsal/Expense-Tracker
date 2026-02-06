@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %}
+{% block start %}
+
+
+
+<!-- <h3><i>its the login page </i></h3> -->
+
+
+<body class="login-bg">
+
+  <div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="login-box text-center">
+
+      <h5 class="mb-4 fw-semibold">Login Page</h5>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3 text-start">
+          <label class="form-label small">Username</label>
+          <input
+            type="text"
+            name="username"
+            class="form-control"
+            placeholder="Username..."
+          />
+          <small class="text-muted">Unique username is required</small>
+        </div>
+
+
+        <div class="mb-3 text-start">
+          <label class="form-label small">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Password ..."
+          />
+        </div>
+        <p>Don't have an account ? <a href="{% url 'register_page' %}">Register</a></p>
+
+        <button class="btn btn-primary w-100 mt-2">
+          Login
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</body>
+
+
+
+
+
+
+{% endblock %}

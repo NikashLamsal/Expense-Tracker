@@ -9,6 +9,41 @@
 </head>
 <body>
 
+<nav class="navbar">
+  <div class="navbar-container">
+    
+    <div class="navbar-left">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4C9.373 4 4 9.373 4 16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16C28 9.373 22.627 4 16 4Z" fill="#2563eb" fill-opacity="0.12"/>
+          <path d="M16 8C11.582 8 8 11.582 8 16C8 20.418 11.582 24 16 24C20.418 24 24 20.418 24 16C24 11.582 20.418 8 16 8Z" fill="#2563eb"/>
+          <path d="M14 12L10 16L14 20M18 12L22 16L18 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="navbar-brand">ExpenseFlow</span>
+    </div>
+
+    <div class="navbar-right">
+      <div class="user-info">
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-details">
+          <span class="username">{{ user.username }}</span>
+          {% if user.first_name %}
+            <span class="user-fullname">({{ user.first_name }} {{ user.last_name }})</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <button class="logout-btn" type="button" onclick="window.location.href='{% url 'logout_page' %}'">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
+
     <h1>Expense Tracker</h1>
     <div class="container">
       
@@ -25,22 +60,30 @@
           <h3>History</h3>
           <ul id="list" class="list">
             {% if transactions %}
+
               {% for transaction in transactions %}
+
               <li class="{% if transaction.expense_type == 'DEBIT' %}minus{% else %}plus{% endif %}">
-                {{transaction.description}} <span>${{transaction.amount}}</span>
+
+                {{transaction.description}} 
+
+                <span>${{transaction.amount}}</span>
+
                 <a class="delete-btn" href="{% url 'delete_transaction' transaction.id %}">
+
                   <i class="fa-solid fa-trash-can"></i>
 
-                      </a>   
-<a class="update-btn" href="?edit={{transaction.id}}">
-    <i class="fa-solid fa-edit" style="color: green;"></i>
-</a>
+                </a> 
+
+                <a class="update-btn" href="?edit={{transaction.id}}">
+                    <i class="fa-solid fa-edit" style="color: green;"></i>
+                </a>
 
               </li>
               {% endfor %}
             {% else %}
               <div class="empty-history">No transactions yet</div>
-            {% endif %}
+            {% endif %} 
           </ul>
         </div>
       </div>
@@ -87,7 +130,7 @@
         </form>
       </div>
 
-    </div>
+    </div> 
 
     <div class="notification-container" id="notification">
       <p>Please add a description and amount</p>
