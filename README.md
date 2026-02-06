@@ -46,9 +46,14 @@ This project is great for learning Django authentication, custom user models (or
 
 ### Dashboard View
 ![Expense Tracker Dashboard](UI-Assets/UI1.png)
-
-### Transaction & Form View
+---
 ![Expense Tracker Dashboard](UI-Assets/UI2.png)
+---
+![Expense Tracker Dashboard](UI-Assets/update.png)
+---
+### Transaction & Form View
+![Expense Tracker Dashboard](UI-Assets/login.png)
+![Expense Tracker Dashboard](UI-Assets/register.png)
 
 ## Installation & Setup
 
@@ -58,4 +63,8 @@ Follow these steps to run the project locally:
 
 ```bash
 git clone https://github.com/your-username/expense-tracker.git
+
 cd expense-tracker
+
+python manage.py runserver
+```
