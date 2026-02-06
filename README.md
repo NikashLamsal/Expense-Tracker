@@ -1,60 +1,61 @@
 # Expense Tracker – Django Web App
 
-A simple and efficient **Expense Tracker web application** built using **Django**.  
-This app allows users to record, manage, and analyze their daily income and expenses with full **CRUD functionality**.
+A simple, secure, and efficient **Expense Tracker web application** built using **Django**.  
+Users can register, log in, and manage **their own personal** income and expense transactions with full **CRUD** functionality. Each user's data is private and isolated.
 
-This project is ideal for learning **Django backend development**, database handling, and real-world project structure.
+This project is great for learning Django authentication, custom user models (or default User), database relationships (ForeignKey), form handling, and building a real-world full-stack application.
 
----
+## Features
 
-##  Features
+- **User Authentication**  
+  - Register / Sign up  
+  - Log in / Log out  
+  - Each user has their own isolated transaction history  
 
--  Add income and expenses
--  Update / Edit existing transactions
--  Delete transactions
--  Track total balance
--  View total income and total expenses
--  Secure Django backend (CSRF protected)
+- **Transaction Management** (per user)  
+  - Add new income or expense  
+  - View personal transaction history  
+  - Edit / Update existing transactions  
+  - Delete transactions  
 
----
+- **Financial Overview**  
+  - Real-time total balance calculation  
+  - Separate total income and total expenses display  
+
+- **Secure & Clean**  
+  - Django’s built-in CSRF protection  
+  - Minimal, modern, and responsive UI  
 
 ## Tech Stack
 
-- **Backend:** Django  
-- **Frontend:** HTML, CSS (Simple & minimal UI)  
-- **Database:** SQLite (default Django DB)  
-- **Server:** Gunicorn  
+- **Backend:** Django (with built-in authentication)  
+- **Frontend:** HTML, CSS (clean & minimal design)  
+- **Database:** SQLite (default for development)  
+- **Server (production-ready):** Gunicorn (recommended)  
 
----
+## CRUD Functionality
 
-##  CRUD Functionality
+| Operation | Description                              |
+|-----------|------------------------------------------|
+| Create    | Add new income or expense transaction    |
+| Read      | View your personal transaction history   |
+| Update    | Edit an existing transaction             |
+| Delete    | Remove a transaction from your list      |
 
-| Operation | Description |
-|---------|-------------|
-| Create | Add new income or expense |
-| Read | View transaction history |
-| Update | Edit existing transactions |
-| Delete | Remove transactions |
+## UI Screenshots
 
----
-
-### UI View
-
----
+### Dashboard View
 ![Expense Tracker Dashboard](UI-Assets/UI1.png)
----
+
+### Transaction & Form View
 ![Expense Tracker Dashboard](UI-Assets/UI2.png)
----
 
 ## Installation & Setup
 
 Follow these steps to run the project locally:
 
-### Clone the Repository
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/expense-tracker.git
-cd expensetracker
-```
-```bash
-python manage.py runserver
-```
+cd expense-tracker
