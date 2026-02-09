@@ -3,153 +3,851 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="/media/css/main.css">
+    <title>Dashboard - ExpenseFlow</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<style>
-  body {
-  margin: 0;
-  padding: 0;
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #0f4c81;
+            --primary-blue-light: #1e88e5;
+            --primary-blue-dark: #0a3a5f;
+            --success-green: #10b981;
+            --success-light: #d1fae5;
+            --danger-red: #ef4444;
+            --danger-light: #fee2e2;
+            --warning-yellow: #f59e0b;
+            --info-blue: #3b82f6;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
+            --white: #ffffff;
+        }
 
-</style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--neutral-50);
+            color: var(--neutral-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--neutral-200);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo svg {
+            display: block;
+        }
+
+        .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            letter-spacing: -0.02em;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: var(--neutral-50);
+            border-radius: 50px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1rem;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+
+        .username {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--neutral-900);
+        }
+
+        .user-fullname {
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, var(--danger-red) 0%, #dc2626 100%);
+            color: var(--white);
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--neutral-500);
+            font-size: 0.95rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(15, 76, 129, 0.3);
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .balance-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .balance-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .balance-amount {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .balance-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .stat-value.positive {
+            color: #6ee7b7;
+        }
+
+        .stat-value.negative {
+            color: #fca5a5;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-actions h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--neutral-900);
+        }
+
+        .action-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--neutral-700);
+        }
+
+        .form-group label small {
+            font-weight: 400;
+            color: var(--neutral-500);
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        .form-input {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--neutral-200);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(15, 76, 129, 0.1);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 76, 129, 0.3);
+        }
+
+        .btn-cancel {
+            background: var(--neutral-100);
+            color: var(--neutral-700);
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-cancel:hover {
+            background: var(--neutral-200);
+        }
+
+        /* Transactions Section */
+        .transactions-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: var(--neutral-100);
+            color: var(--neutral-600);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .transactions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem;
+            background: var(--neutral-50);
+            border-radius: 14px;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .transaction-item:hover {
+            border-color: var(--neutral-200);
+            background: var(--white);
+        }
+
+        .transaction-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .transaction-item.income .transaction-icon {
+            background: var(--success-light);
+            color: var(--success-green);
+        }
+
+        .transaction-item.expense .transaction-icon {
+            background: var(--danger-light);
+            color: var(--danger-red);
+        }
+
+        .transaction-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .transaction-description {
+            font-weight: 600;
+            color: var(--neutral-900);
+            font-size: 0.95rem;
+            margin-bottom: 0.125rem;
+        }
+
+        .transaction-date {
+            font-size: 0.8rem;
+            color: var(--neutral-500);
+        }
+
+        .transaction-amount {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+
+        .transaction-item.income .transaction-amount {
+            color: var(--success-green);
+        }
+
+        .transaction-item.expense .transaction-amount {
+            color: var(--danger-red);
+        }
+
+        .transaction-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: var(--neutral-100);
+            color: var(--neutral-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background: var(--neutral-200);
+        }
+
+        .action-btn.edit:hover {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-green);
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--neutral-300);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: var(--neutral-500);
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 0 1rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .balance-amount {
+                font-size: 2.5rem;
+            }
+
+            .balance-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .filter-tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
 <body>
 
 <nav class="navbar">
-  <div class="navbar-container">
-    
-    <div class="navbar-left">
-      <div class="logo">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 4C9.373 4 4 9.373 4 16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16C28 9.373 22.627 4 16 4Z" fill="#2563eb" fill-opacity="0.12"/>
-          <path d="M16 8C11.582 8 8 11.582 8 16C8 20.418 11.582 24 16 24C20.418 24 24 20.418 24 16C24 11.582 20.418 8 16 8Z" fill="#2563eb"/>
-          <path d="M14 12L10 16L14 20M18 12L22 16L18 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="navbar-brand">ExpenseFlow</span>
-    </div>
-
-    <div class="navbar-right">
-      <div class="user-info">
-        <div class="avatar">
-          <i class="fa-solid fa-user"></i>
+    <div class="navbar-container">
+        <div class="navbar-left">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="14" fill="url(#gradient1)" opacity="0.1"/>
+                    <circle cx="16" cy="16" r="12" fill="url(#gradient1)"/>
+                    <path d="M14 10L10 14L14 18M18 10L22 14L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="gradient1" x1="4" y1="4" x2="28" y2="28">
+                            <stop offset="0%" stop-color="#0f4c81"/>
+                            <stop offset="100%" stop-color="#1e88e5"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="navbar-brand">ExpenseFlow</span>
         </div>
-        <div class="user-details">
-          <span class="username">{{ user.username }}</span>
-          {% if user.first_name %}
-            <span class="user-fullname">({{ user.first_name }} {{ user.last_name }})</span>
-          {% endif %}
+
+        <div class="navbar-right">
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <span class="username">{{ user.username }}</span>
+                    {% if user.first_name %}
+                        <span class="user-fullname">{{ user.first_name }} {{ user.last_name }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <a class="logout-btn" href="{% url 'logout_page' %}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
         </div>
-      </div>
-
-      <!-- <button class="logout-btn" type="button" onclick="window.location.href='{% url 'logout_page' %}'">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        Logout
-      </button> -->
-
-      <a class="logout-btn" type="button" href="{% url 'logout_page' %}">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        Logout
-        </a>
-
-
-
     </div>
-  </div>
 </nav>
 
-    <h1>Expense Tracker</h1>
-    <div class="container">
-      
-      <div class="left-side">
-        <div class="header">
-          <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
-          <div class="balance-container">
-            <h2>YOUR BALANCE</h2>
-            <h2 id="balance" class="balance">${{current_balance.current_balance}}</h2>
-          </div>
-        </div>
-
-        <div class="history-box">
-          <h3>History</h3>
-          <ul id="list" class="list">
-            {% if transactions %}
-
-              {% for transaction in transactions %}
-
-              <li class="{% if transaction.expense_type == 'DEBIT' %}minus{% else %}plus{% endif %}">
-
-                {{transaction.description}} 
-
-                <span>${{transaction.amount}}</span>
-
-                <a class="delete-btn" href="{% url 'delete_transaction' transaction.id %}">
-
-                  <i class="fa-solid fa-trash-can"></i>
-
-                </a> 
-
-                <a class="update-btn" href="?edit={{transaction.id}}">
-                    <i class="fa-solid fa-edit" style="color: green;"></i>
-                </a>
-
-              </li>
-              {% endfor %}
-            {% else %}
-              <div class="empty-history">No transactions yet</div>
-            {% endif %} 
-          </ul>
-        </div>
-      </div>
-
-      <div class="right-side">
-        <div class="inc-exp-container">
-          <div>
-            <h4>INCOME</h4>
-            <p id="money-plus" class="money plus">+ ${{income}}</p>
-          </div>
-          <div>
-            <h4>EXPENSES</h4>
-            <p id="money-minus" class="money minus">${{expense}}</p>
-          </div>
-        </div>
-
-        <form method="post" id="form" action="{% if edit_transaction %}{% url 'update_transaction' edit_transaction.id %}{% endif %}">
-
-          <h3>{% if edit_transaction %}Update{% else %}Add new{% endif %} transaction</h3>
-
-          {% csrf_token %}
-
-          <div class="form-control">
-            <label for="text">Description</label>
-            <input type="text" name="description" id="text" placeholder="Enter description..." value="{% if edit_transaction %}{{edit_transaction.description}}{% endif %}" />
-          </div>
-
-          <div class="form-control">
-
-            <label for="amount">
-              Amount <br />
-              <small>(-100 = expense, 100 = income)</small>
-            </label>
-
-            <input type="number" id="amount" name="amount" placeholder="Enter amount..." />
-          </div>
-          
-          <button class="btn" type="submit">{% if edit_transaction %}Update{% else %}Add{% endif %} transaction</button>
-
-          {% if edit_transaction %}
-          <a href="/" class="btn" style="background: #666; display: inline-block; text-decoration: none; text-align: center; margin-top: 10px;">Cancel</a>
-          {% endif %}
-
-        </form>
-      </div>
-
-    </div> 
-
-    <div class="notification-container" id="notification">
-      <p>Please add a description and amount</p>
+<div class="main-container">
+    <div class="page-header">
+        <h1>Financial Dashboard</h1>
+        <p>Track your income and expenses with ease</p>
     </div>
+
+    <div class="dashboard-grid">
+        <div class="balance-card">
+            <div class="balance-card-content">
+                <div class="balance-label">Current Balance</div>
+                <div class="balance-amount">${{ current_balance.current_balance }}</div>
+                
+                <div class="balance-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Income</div>
+                        <div class="stat-value positive">+${{ income }}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Total Expenses</div>
+                        <div class="stat-value negative">${{ expense }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h3>{% if edit_transaction %}Update{% else %}Add New{% endif %} Transaction</h3>
+            
+            <form method="POST" class="action-form" action="{% if edit_transaction %}{% url 'update_transaction' edit_transaction.id %}{% endif %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="text">
+                        Description
+                    </label>
+                    <input 
+                        type="text" 
+                        name="description" 
+                        id="text" 
+                        class="form-input"
+                        placeholder="e.g., Grocery shopping, Salary, etc."
+                        value="{% if edit_transaction %}{{ edit_transaction.description }}{% endif %}"
+                        required
+                    />
+                </div>
+
+
+                <div class="form-group">
+        <label for="category">
+            Category
+        </label>
+        <select name="category" id="category" class="form-input">
+            <option value="">Select Category</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" 
+                    {% if edit_transaction and edit_transaction.category.id == cat.id %}selected{% endif %}>
+                    {{ cat.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+
+                <div class="form-group">
+                    <label for="amount">
+                        Amount
+                        <small>Use positive numbers for income, negative for expenses</small>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="amount" 
+                        name="amount" 
+                        class="form-input"
+                        placeholder="e.g., 100 or -50"
+                        step="0.01"
+                        required
+                    />
+                </div>
+                
+                <button class="btn-submit" type="submit">
+                    {% if edit_transaction %}Update{% else %}Add{% endif %} Transaction
+                </button>
+
+                {% if edit_transaction %}
+                    <a href="/" class="btn-cancel">Cancel Edit</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <div class="transactions-section">
+        <div class="section-header">
+            <h2>Transaction History</h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active">All</button>
+                <button class="filter-tab">Income</button>
+                <button class="filter-tab">Expenses</button>
+            </div>
+        </div>
+
+        <div class="transactions-list">
+            {% if transactions %}
+                {% for transaction in transactions %}
+                <div class="transaction-item {% if transaction.expense_type == 'CREDIT' %}income{% else %}expense{% endif %}">
+                    <div class="transaction-icon">
+
+                {% if transaction.expense_type == 'CREDIT' %}
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                {% else %}
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+                {% endif %}
+                    </div>
+                    
+                    <div class="transaction-details">
+                        <div class="transaction-description">
+                                {{ transaction.description }}
+                                    {% if transaction.category %}
+                    <span style="font-size: 0.75rem; color: {{ transaction.category.color }}; margin-left: 0.5rem;">
+                        • {{ transaction.category.name }}
+                    </span>
+                {% endif %}                        
+            </div>
+
+
+                    <div class="transaction-date">
+                    {% if transaction.created_at.date == today %}
+                    Today
+                {% else %}
+                    {{ transaction.created_at|date:"M d, Y" }}
+                {% endif %}
+                    </div>
+                    </div>
+                    
+                    <div class="transaction-amount">
+                        {% if transaction.expense_type == 'CREDIT' %}+{% endif %}${{ transaction.amount }}
+                    </div>
+                    
+                    <div class="transaction-actions">
+                        <a href="?edit={{ transaction.id }}" class="action-btn edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a href="{% url 'delete_transaction' transaction.id %}" class="action-btn delete" onclick="return confirm('Are you sure you want to delete this transaction?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>No transactions yet. Add your first transaction to get started!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+const filterTabs = document.querySelectorAll('.filter-tab');
+const transactionItems = document.querySelectorAll('.transaction-item');
+
+filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        const filter = tab.textContent.toLowerCase();
+        transactionItems.forEach(item => {
+            if (filter === 'all') {
+                item.style.display = 'flex';
+            } else if (filter === 'income' && item.classList.contains('income')) {
+                item.style.display = 'flex';
+            } else if (filter === 'expenses' && item.classList.contains('expense')) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% if messages %}
+    {% for message in messages %}
+    <script>
+
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #0f4c81 0%, #1e88e5 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease-out;
+        max-width: 350px;
+        font-family: 'DM Sans', sans-serif;
+    `;
+    toast.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fa-solid fa-circle-check" style="font-size: 1.25rem;"></i>
+            <span>{{ message }}</span>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+    </script>
+
+    {% endfor %}
+{% endif %}
+
+<style>
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+</style>
 
 </body>
 </html>

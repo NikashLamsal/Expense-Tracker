@@ -1,17 +1,18 @@
 from django.shortcuts import render , redirect
 from django.shortcuts import get_object_or_404
-from .models import TrackingHistory , CurrentBalance
+from .models import TrackingHistory , CurrentBalance, Category
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.models import User
 
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
+from datetime import date  
 
 # Create your views here.
  
 @login_required(login_url="login_page")
-def index(request):  # sourcery skip: assign-if-exp, introduce-default-else
+def index(request): 
  
  
     current_balance,_ = CurrentBalance.objects.get_or_create(user=request.user)
@@ -24,6 +25,11 @@ def index(request):  # sourcery skip: assign-if-exp, introduce-default-else
 
         description = request.POST.get('description')
         amount = request.POST.get('amount')
+        category_id = request.POST.get('category')
+
+
+
+
 
 
         expense_type = "CREDIT"
@@ -38,12 +44,18 @@ def index(request):  # sourcery skip: assign-if-exp, introduce-default-else
         # income = 0
         # expense = 0
  
+        category = None
+        if category_id:
+            category = Category.objects.filter(id=category_id, user=request.user).first()
+
+
         TrackingHistory.objects.create (
             user = request.user,
             amount = amount,
             expense_type = expense_type,
             current_balance = current_balance,
-            description = description )
+            description = description,
+            category = category )
         
         total = TrackingHistory.objects.filter(user = request.user).aggregate(total=Sum('amount'))['total'] or 0
 
@@ -63,13 +75,16 @@ def index(request):  # sourcery skip: assign-if-exp, introduce-default-else
         else:
              expense += tracking_history.amount
              
-
+    user_categories = Category.objects.filter(user=request.user)
+    today = date.today()
     context = {
         'income' : income,
         'expense' : expense,
         'transactions' : user_transactions,
         'current_balance' : current_balance,
-        'edit_transaction' : edit_transaction
+        'edit_transaction' : edit_transaction,
+        'categories': user_categories,
+        'today': today
     }
 
     return render(request, 'index.html' , context)
@@ -97,6 +112,7 @@ def update_transaction(request, id):
     if request.method == "POST":
         description = request.POST.get('description')
         amount = request.POST.get('amount')
+        category_id = request.POST.get('category')
 
         if float(amount) == 0:
             messages.error(request, "Amount cannot be zero")
@@ -105,10 +121,17 @@ def update_transaction(request, id):
         expense_type = "CREDIT"
         if float(amount) < 0:
             expense_type = "DEBIT"
+
+        category = None
+        if category_id:
+            category = Category.objects.filter(id=category_id, user=request.user).first()
+
  
         transaction.description = description
         transaction.amount = amount
         transaction.expense_type = expense_type
+        transaction.category = category
+
         transaction.save()
 
 
@@ -171,6 +194,9 @@ def register_view(request):
         )
         user.set_password(password)
         user.save()
+
+        create_default_categories(user) 
+
         messages.success(request,"Account Created")
         return redirect('/login/')
 
@@ -181,3 +207,23 @@ def register_view(request):
 
     return render(request,"register.html" )
 
+
+
+def create_default_categories(user):
+    
+    default_categories = [
+        {'name': 'Salary', 'icon': 'fa-money-bill', 'color': '#10b981', 'type': 'INCOME'},
+        {'name': 'Freelance', 'icon': 'fa-laptop', 'color': '#3b82f6', 'type': 'INCOME'},
+        {'name': 'Investment', 'icon': 'fa-chart-line', 'color': '#06b6d4', 'type': 'INCOME'},
+        {'name': 'Food', 'icon': 'fa-utensils', 'color': '#f59e0b', 'type': 'EXPENSE'},
+        {'name': 'Transport', 'icon': 'fa-car', 'color': '#ef4444', 'type': 'EXPENSE'},
+        {'name': 'Shopping', 'icon': 'fa-shopping-cart', 'color': '#8b5cf6', 'type': 'EXPENSE'},
+        {'name': 'Bills', 'icon': 'fa-file-invoice', 'color': '#ec4899', 'type': 'EXPENSE'},
+        {'name': 'Entertainment', 'icon': 'fa-film', 'color': '#14b8a6', 'type': 'EXPENSE'},
+        {'name': 'Health', 'icon': 'fa-heart-pulse', 'color': '#f43f5e', 'type': 'EXPENSE'},
+        {'name': 'Other', 'icon': 'fa-circle', 'color': '#64748b', 'type': 'EXPENSE'},
+    ]
+    
+    for cat_data in default_categories:
+        Category.objects.get_or_create(user=user, **cat_data)
+        

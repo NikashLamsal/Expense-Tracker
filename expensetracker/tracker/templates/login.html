@@ -1,87 +1,144 @@
-<!DOCTYPE html>
-<style>
- 
-  .login-box {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    max-width: 420px;
-    width: 100%;
-    animation: fadeIn 0.5s ease-in;
-  }
+{% extends 'base.html' %}
 
-
-  .login-box h5 {
-    color: #333;
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .form-label {
-    color: #555;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-</style>
-
-
-{% extends "base.html" %}
 {% block start %}
+<div class="auth-wrapper">
+  <div class="auth-container">
+    <div class="auth-brand-side">
+      <div class="brand-content">
+        <div class="brand-logo-large">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="28" fill="url(#gradient1)" opacity="0.1"/>
+            <circle cx="32" cy="32" r="24" fill="url(#gradient1)"/>
+            <path d="M28 20L20 28L28 36M36 20L44 28L36 36" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="gradient1" x1="8" y1="8" x2="56" y2="56">
+                <stop offset="0%" stop-color="#0f4c81"/>
+                <stop offset="100%" stop-color="#1e88e5"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="brand-title">ExpenseFlow</h1>
+        <p class="brand-tagline">Your trusted financial companion</p>
+        
+        <div class="brand-features">
+          <div class="feature-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Bank-grade Security</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Real-time Analytics</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span>Access Anywhere</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="decorative-elements">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+      </div>
+    </div>
 
-
-
-<!-- <h3><i>its the login page </i></h3> -->
-
-
-<body class="login-bg">
-
-  <div class="container vh-100 d-flex justify-content-center align-items-center">
-    <div class="login-box text-center">
-
-      <h5 class="mb-4 fw-semibold">Login Page</h5>
-
-      <form method="post">
-        {% csrf_token %}
-
-        <div class="mb-3 text-start">
-          <label class="form-label small">Username</label>
-          <input
-            type="text"
-            name="username"
-            class="form-control"
-            placeholder="Username..."
-          />
-          <small class="text-muted">Unique username is required</small>
+    <div class="auth-form-side">
+      <div class="form-container">
+        <div class="form-header">
+          <h2>Welcome Back</h2>
+          <p>Sign in to manage your finances</p>
         </div>
 
+        <form method="POST" action="{% url 'login_page' %}" class="auth-form">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <label for="username">
+              <i class="fa-solid fa-user"></i>
+              Username
+            </label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-input"
+              placeholder="Enter your username"
+              required
+              autocomplete="username"
+            />
+          </div>
 
-        <div class="mb-3 text-start">
-          <label class="form-label small">Password</label>
-          <input
-            type="password"
-            name="password"
-            class="form-control"
-            placeholder="Password ..."
-          />
+          <div class="form-group">
+            <label for="password">
+              <i class="fa-solid fa-lock"></i>
+              Password
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-input"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+              />
+              <button type="button" class="toggle-password" onclick="togglePassword()">
+                <i class="fa-solid fa-eye" id="eye-icon"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input type="checkbox" name="remember">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">Remember me</span>
+            </label>
+            <a href="#" class="link-text">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary-custom">
+            <span>Sign In</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+
+          <div class="divider">
+            <span>New to ExpenseFlow?</span>
+          </div>
+
+          <a href="{% url 'register_page' %}" class="btn-secondary-custom">
+            Create Account
+          </a>
+        </form>
+
+        <div class="form-footer">
+          <p class="security-note">
+            <i class="fa-solid fa-lock"></i>
+            Your data is encrypted and secure
+          </p>
         </div>
-        <p>Don't have an account ? <a href="{% url 'register_page' %}">Register</a></p>
-
-        <button class="btn btn-primary w-100 mt-2">
-          Login
-        </button>
-      </form>
-
+      </div>
     </div>
   </div>
+</div>
 
-</body>
-
-
-
-
-
-
+<script>
+function togglePassword() {
+  const passwordInput = document.getElementById('password');
+  const eyeIcon = document.getElementById('eye-icon');
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    eyeIcon.classList.remove('fa-eye');
+    eyeIcon.classList.add('fa-eye-slash');
+  } else {
+    passwordInput.type = 'password';
+    eyeIcon.classList.remove('fa-eye-slash');
+    eyeIcon.classList.add('fa-eye');
+  }
+}
+</script>
 {% endblock %}

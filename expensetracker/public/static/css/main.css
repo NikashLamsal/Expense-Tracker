@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -234,7 +234,6 @@ input::placeholder {
 
 .btn:hover {
   background-color: #1e40af;
-  /* transform: translateY(-1px); */
   box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
 }
 
@@ -272,12 +271,10 @@ input::placeholder {
   border-radius: 8px;
   border-left: 4px solid;
   font-size: 0.85rem;
-  /* transition: all 0.2s; */
   background-color: #f9fafb;
 }
 
 .list li:hover {
-  /* transform: translateX(4px); */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -361,16 +358,7 @@ input::placeholder {
   }
 }
 
-/* .list li .update-btn {
-  position: absolute;
-  top: 50%;
-  right: 40px;
-  transform: translateY(-50%);
-  opacity: 0;
-}
 
-
-*/
 
 .list li:hover .update-btn {
   opacity: 1;
@@ -379,7 +367,6 @@ input::placeholder {
 
 
 
-/* nav bar */
 
 
 
@@ -541,4 +528,7 @@ input::placeholder {
   .logout-btn span {
     display: none;
   }
-}
+} */
+
+
+
