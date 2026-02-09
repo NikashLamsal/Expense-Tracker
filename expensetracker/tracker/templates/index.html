@@ -722,7 +722,7 @@
                         <div class="transaction-description">
                                 {{ transaction.description }}
                                     {% if transaction.category %}
-                    <span style="font-size: 0.75rem; color: {{ transaction.category.color }}; margin-left: 0.5rem;">
+                    <span class="{{ transaction.category.icon }}" style="font-size: 0.75rem; color: {{ transaction.category.color }}; margin-left: 0.5rem;">
                         • {{ transaction.category.name }}
                     </span>
                 {% endif %}                        
