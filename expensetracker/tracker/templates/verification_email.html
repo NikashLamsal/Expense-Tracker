@@ -1,0 +1,85 @@
+{% extends 'base2.html' %}
+
+{% block start %}    
+<div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="email-wrapper">
+        <div class="card">
+
+            <div class="header">
+                <div class="brand">
+                    <div class="brand-icon">💸</div>
+                    <div class="brand-name">Expense<span>Flow</span></div>
+                </div>
+                <div class="header-title">
+                    Verify your email<br>
+                    <span>to get started</span>
+                </div>
+
+                <div class="coins-decoration">
+                    <div class="coin coin-1">$</div>
+                    <div class="coin coin-2">€</div>
+                    <div class="coin coin-3">¥</div>
+                </div>
+            </div>
+
+            <div class="body">
+                <p class="greeting">Hey, <strong>{{ username }}</strong></p>
+                <p class="message">
+                    Welcome to ExpenseFlow — your personal finance command center. 
+                    One quick step before you start tracking your expenses: verify 
+                    that this email belongs to you.
+                </p>
+
+                <div class="stats-strip">
+                    <div class="stat">
+                        <span class="stat-value">∞</span>
+                        <span class="stat-label">Transactions</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">📊</span>
+                        <span class="stat-label">Analytics</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">🔒</span>
+                        <span class="stat-label">Secure</span>
+                    </div>
+                </div>
+
+                <div class="cta-wrapper">
+                    <a href="{{ verification_url }}" class="cta-button">
+                        Verify My Email
+                    </a>
+                </div>
+
+                <div class="expiry-notice">
+                    <span class="expiry-icon"></span>
+                    <span class="expiry-text">This link expires in <strong>24 hours</strong>. After that you'll need to request a new one.</span>
+                </div>
+
+                <div class="fallback">
+                    <span class="fallback-label">Button not working? Copy this link</span>
+                    <span class="fallback-url">{{ verification_url }}</span>
+                </div>
+
+                <div class="divider"></div>
+
+            </div>
+
+            <div class="footer">
+                <p class="footer-note">
+                    If you didn't create an ExpenseFlow account, you can safely ignore this email. 
+                    No action is needed from your side.
+                </p>
+                <div class="footer-brand">
+                    <div class="footer-dot"></div>
+                    <span class="footer-text">ExpenseFlow</span>
+                    <div class="footer-dot"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import uuid
+from django.utils import timezone
+from datetime import timedelta
 # Create your models here.
 
 
@@ -39,4 +41,11 @@ class TrackingHistory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # ADD THIS LINE
 
 
-
+class EmailVerificationToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def is_valid(self):
+        expiration_time = self.created_at + timedelta(hours=24)
+        return timezone.now() < expiration_time

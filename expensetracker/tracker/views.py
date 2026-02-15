@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from django.shortcuts import get_object_or_404
-from .models import TrackingHistory , CurrentBalance, Category
+from .models import TrackingHistory , CurrentBalance, Category ,EmailVerificationToken
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -8,6 +8,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
 from datetime import date  
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.contrib.sites.shortcuts import get_current_site
+from django.http import HttpResponse
+from django.conf import settings
 
 # Create your views here.
  
@@ -180,32 +188,81 @@ def register_view(request):
         password = request.POST.get('password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-
+        email = request.POST.get('email')
 
         user = User.objects.filter(username = username)
         if user.exists():
            messages.success(request,"username already taken")
            return redirect('/register/')
         
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email already registered")
+            return redirect('/register/')
+        
+
         user = User.objects.create(
             username = username,
             first_name = first_name,
-            last_name = last_name
+            last_name = last_name,
+            email=email,
+            is_active = False
+
         )
         user.set_password(password)
         user.save()
 
-        create_default_categories(user) 
 
-        messages.success(request,"Account Created")
+        create_default_categories(user) 
+        token = EmailVerificationToken.objects.create(user=user)
+        current_site = get_current_site(request)
+        verification_url = f"http://{current_site.domain}/verify/{token.token}/"
+
+        try:
+            html_content = render_to_string('verification_email.html', {
+                'username': user.username,
+                'verification_url': verification_url,
+            })
+            plain_text = strip_tags(html_content)
+
+            email_msg = EmailMultiAlternatives(
+                    subject='Verify your email address',
+                    body=plain_text,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[user.email]
+                )
+            email_msg.attach_alternative(html_content, "text/html")
+            email_msg.send()
+
+            messages.success(request, "Account created! Please check your email to verify your account.")
+        except Exception as e:
+            print(f"Email error: {e}")
+            messages.error(request, "Account created but email could not be sent.")
+
         return redirect('/login/')
 
-        
-
-
-
-
     return render(request,"register.html" )
+
+def verify_email(request, token):
+    try:
+        verification_token = EmailVerificationToken.objects.get(token=token)
+
+        if not verification_token.is_valid():
+            messages.error(request, "This verification link has expired.")
+            return redirect('/login/')
+
+        user = verification_token.user
+        user.is_active = True
+        user.save()
+
+        verification_token.delete()
+
+        messages.success(request, "Email verified successfully! You can now login.")
+        return redirect('/login/')
+
+    except EmailVerificationToken.DoesNotExist:
+        messages.error(request, "Invalid verification link.")
+        return redirect('/login/')
 
 
 
